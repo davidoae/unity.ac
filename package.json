@@ -1,0 +1,13 @@
+{
+  "name": "unity.ac",
+  "main": "createTenants.js",
+  "description": "Unity.ac scripts",
+  "version": "0.0.1",
+  "homepage": "http://www.unity.ac",
+  "dependencies": {
+    "csv": "latest",
+    "lodash": "latest",
+    "oae-rest": "latest",
+    "yargs": "latest"
+  }
+}

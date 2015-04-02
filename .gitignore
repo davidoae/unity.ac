@@ -1,0 +1,6 @@
+.DS_STORE
+dump.rdb
+target/
+node_modules/*
+*.log
+doc_data.txt
