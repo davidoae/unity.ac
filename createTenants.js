@@ -158,11 +158,13 @@ var setConfiguration = function(tenant, record, callback) {
         'oae-authentication/local/allowAccountCreation': false,
         'oae-authentication/shibboleth/enabled': true,
         'oae-authentication/shibboleth/idpEntityID': record.idp,
-        'oae-principals/termsAndConditions/text/default': record.termsAndConditions,
         'oae-principals/user/defaultLanguage': record.language,
         'oae-tenants/domains/email': record.email,
         'oae-tenants/timezone/timezone': record.timezone
     };
+    if (record.termsAndConditions) {
+        update['oae-principals/termsAndConditions/text/default'] = record.termsAndConditions;
+    }
     RestAPI.Config.updateConfig(restCtx, tenant.alias, update, callback);
 };
 
