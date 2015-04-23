@@ -61,7 +61,7 @@ var options = {
 };
 var parser = csv.parse(options, function(err, records) {
     // Shift out the headers
-    records.shift();
+    // records.shift();
 
     // Get all existing tenants
     RestAPI.Tenants.getTenants(restCtx, function(err, tenants) {
@@ -89,6 +89,12 @@ var createOrUpdateTenants = function(tenants, records, callback) {
 
     var record = records.pop();
     console.log('%s - %s', record.hostname, record.organisation);
+
+    if (!record.idp || !record.organisation || !record.alias || !record.hostname || !record.country || !record.timezone || !record.language || !record.email) {
+        console.log('  Ignoring because of missing data');
+        console.log('  %s', JSON.stringify(record));
+        return createOrUpdateTenants(tenants, records, callback);
+    }
 
     var createOrUpdateFunction = createTenant;
 
