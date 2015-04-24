@@ -79,7 +79,7 @@ var parser = csv.parse(options, function(err, records) {
 });
 
 // Pipe the CSV file to the parser
-var fileStream = fs.createReadStream(argv.file);
+var fileStream = fs.createReadStream(argv.file, {'encoding': 'utf8'});
 fileStream.pipe(parser);
 
 var createOrUpdateTenants = function(tenants, records, callback) {
@@ -100,7 +100,13 @@ var createOrUpdateTenants = function(tenants, records, callback) {
 
     // Check if this tenant already exists:
     if (tenants[record.alias]) {
-        createOrUpdateFunction = updateTenant;
+        // Ignore existing tenants for now
+        console.log('  Ignoring because the tenant exists already');
+        // Move on to the next one
+        createOrUpdateTenants(tenants, records, callback);
+        return;
+        // createOrUpdateFunction = updateTenant;
+
     }
 
     // 1. Create or update the tenant
@@ -162,10 +168,11 @@ var setConfiguration = function(tenant, record, callback) {
     console.log('  Setting configuration');
     var update = {
         'oae-authentication/local/allowAccountCreation': false,
+        'oae-authentication/local/enabled': false,
         'oae-authentication/shibboleth/enabled': true,
         'oae-authentication/shibboleth/idpEntityID': record.idp,
         'oae-principals/user/defaultLanguage': record.language,
-        'oae-tenants/domains/email': record.email,
+        //'oae-tenants/domains/email': record.email,
         'oae-tenants/timezone/timezone': record.timezone
     };
     if (record.termsAndConditions) {
