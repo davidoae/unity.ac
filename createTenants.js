@@ -192,10 +192,10 @@ var setLogos = function(tenant, record, callback) {
     // the image URLs need to be encapsulated in single quotes
     var update = {};
     if (hasSmallLogo) {
-        update['oae-ui/skin/variables/institutional-logo-url'] = util.format("'/assets/%s/small.png'", tenant.alias);
+        update['oae-ui/skin/variables/institutional-logo-url'] = util.format("'/assets/%s/large.png'", tenant.alias);
     }
     if (hasLargeLogo) {
-        update['oae-ui/skin/variables/institutional-logo-small-url'] = util.format("'/assets/%s/large.png'", tenant.alias);
+        update['oae-ui/skin/variables/institutional-logo-small-url'] = util.format("'/assets/%s/small.png'", tenant.alias);
     }
     if (hasBranding) {
         update['oae-ui/skin/variables/branding-image-url'] = util.format("'/assets/%s/branding.png'", tenant.alias);
