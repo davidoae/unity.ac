@@ -108,20 +108,23 @@ var processRecords = function(records, existingTenants, callback) {
 var setLandingPage = function(record, callback) {
     console.log('Setting landingpage for: %s', record.alias);
 
+    // Configure the landing page
     var landingPage = getLandingPage(record);
-
     var update = {};
     _.each(landingPage, function(block, blockId) {
         _.each(block, function(val, name) {
-            //if (val) {
                 if (name === 'text' && val && val.default) {
                     update[util.format('oae-tenants/%s/%s/default', blockId, name)] = val.default;
                 } else {
                     update[util.format('oae-tenants/%s/%s', blockId, name)] = val;
                 }
-            //}
         });
     });
+
+    // Configure the skin
+    update['oae-ui/skin/variables/branding-image-url'] = "'/assets/landingpage/branding.png'";
+    update['oae-ui/skin/variables/branding-gradient1-color'] = 'rgba(255, 255, 255, 0.34)';
+    update['oae-ui/skin/variables/branding-gradient2-color'] = 'rgba(255, 255, 255, 0.34)';
 
     RestAPI.Config.updateConfig(restCtx, record.alias, update, callback);
 };
@@ -131,14 +134,14 @@ var getLandingPage = function(record) {
     landingPage = _.cloneDeep(landingPage);
 
     landingPage.block_2.text.default = '# \\*Unity for _DEFINITE__DISPLAYNAME_\r\n\r\nThe cloud where universities work together'
-        .replace('_DEFINITE_', (record.definite ? record.definite : ''))
-        .replace('_DISPLAYNAME_', record.organisation);
+        .replace(/_DEFINITE_/g, (record.definite ? record.definite + ' ' : ''))
+        .replace(/_DISPLAYNAME_/g, record.organisation);
 
     landingPage.block_3.videoPlaceholder = '/assets/landingpage/video.png';
 
-    landingPage.block_6.text.default = 'Not at _DEFINITE__DISPLAYNAME_? [Find your university here](http://www.unity.ac).'
-        .replace('_DEFINITE_', (record.definite ? record.definite : ''))
-        .replace('_DISPLAYNAME_', record.organisation);
+    landingPage.block_6.text.default = 'Note that \\*Unity is not an official campus service provided by _DEFINITE__DISPLAYNAME_. Find out more about \\*Unity at [http://www.unity.ac](http://www.unity.ac).\r\n\r\nNot at _DEFINITE__DISPLAYNAME_? [Find your university here](http://www.unity.ac).'
+        .replace(/_DEFINITE_/g, (record.definite ? record.definite + ' ' : ''))
+        .replace(/_DISPLAYNAME_/g, record.organisation);
 
     return landingPage;
 };

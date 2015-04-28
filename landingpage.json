@@ -112,7 +112,7 @@
         "titleColor": "#333",
         "textColor": "#333",
         "text": {
-            "default": "Not at the University of Manchester? [Find your university here](http://www.unity.ac)."
+            "default": "Note that \\*Unity is not an official campus service provided by the University of Manchester. Find out more about \\*Unity at [http://www.unity.ac](http://www.unity.ac).\r\n\r\nNot at the University of Manchester? [Find your university here](http://www.unity.ac)."
         },
         "icon": "",
         "imgUrl": "",
