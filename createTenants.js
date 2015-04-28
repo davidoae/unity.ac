@@ -21,6 +21,7 @@ var RestAPI = require('oae-rest');
 var RestContext = require('oae-rest/lib/model').RestContext;
 var util = require('util');
 
+var UnityAPI = require('./api');
 
 var argv = require('yargs')
     .usage('Usage: $0 --file path/to/file.csv')
@@ -55,13 +56,10 @@ require('oae-rest/lib/util').on('error', function(err, body, response) {
     console.log('Error %d: - %s', err.code, body);
 });
 
-// Parse the CSV file
-var options = {
-    'columns': ['idp', 'organisation', 'alias', 'hostname', 'country', 'timezone', 'language', 'email', 'termsAndConditions']
-};
-var parser = csv.parse(options, function(err, records) {
-    // Shift out the headers
-    // records.shift();
+UnityAPI.getCSVData(argv.file, function(err, records) {
+    if (err) {
+        process.exit(1);
+    }
 
     // Get all existing tenants
     RestAPI.Tenants.getTenants(restCtx, function(err, tenants) {
@@ -77,10 +75,6 @@ var parser = csv.parse(options, function(err, records) {
         });
     });
 });
-
-// Pipe the CSV file to the parser
-var fileStream = fs.createReadStream(argv.file, {'encoding': 'utf8'});
-fileStream.pipe(parser);
 
 var createOrUpdateTenants = function(tenants, records, callback) {
     if (_.isEmpty(records)) {
@@ -191,10 +185,10 @@ var setLogos = function(tenant, record, callback) {
     // The logo files can reached on the web on `/assets/<tenant alias>/file.png`. Keep in mind that
     // the image URLs need to be encapsulated in single quotes
     var update = {};
-    if (hasSmallLogo) {
+    if (hasLargeLogo) {
         update['oae-ui/skin/variables/institutional-logo-url'] = util.format("'/assets/%s/large.png'", tenant.alias);
     }
-    if (hasLargeLogo) {
+    if (hasSmallLogo) {
         update['oae-ui/skin/variables/institutional-logo-small-url'] = util.format("'/assets/%s/small.png'", tenant.alias);
     }
     if (hasBranding) {
