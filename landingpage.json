@@ -1,0 +1,242 @@
+{
+    "block_1": {
+        "type": "search",
+        "xs": "12",
+        "sm": "12",
+        "md": "12",
+        "lg": "12",
+        "minHeight": "",
+        "horizontalAlign": "center",
+        "verticalAlign": "middle",
+        "bgColor": "",
+        "titleColor": "",
+        "textColor": "",
+        "text": {
+            "default": ""
+        },
+        "icon": "",
+        "imgUrl": "",
+        "videoUrl": "",
+        "videoPlaceholder": ""
+    },
+    "block_2": {
+        "type": "text",
+        "xs": "12",
+        "sm": "12",
+        "md": "4",
+        "lg": "4",
+        "minHeight": "",
+        "horizontalAlign": "center",
+        "verticalAlign": "middle",
+        "bgColor": "",
+        "titleColor": "#333333",
+        "textColor": "#BD1C19",
+        "text": {
+            "default": "# \\*Unity for the University of Manchester\r\n\r\nThe cloud where universities work together"
+        },
+        "icon": "",
+        "imgUrl": "",
+        "videoUrl": "",
+        "videoPlaceholder": ""
+    },
+    "block_3": {
+        "type": "video",
+        "xs": "12",
+        "sm": "12",
+        "md": "8",
+        "lg": "8",
+        "minHeight": "290",
+        "horizontalAlign": "center",
+        "verticalAlign": "middle",
+        "bgColor": "",
+        "titleColor": "",
+        "textColor": "",
+        "text": {
+            "default": ""
+        },
+        "icon": "",
+        "imgUrl": "",
+        "videoUrl": "https://www.youtube.com/watch?v=cfiM87Y0pWw",
+        "videoPlaceholder": "<attachedImage>"
+    },
+    "block_4": {
+        "type": "iconText",
+        "xs": "12",
+        "sm": "6",
+        "md": "4",
+        "lg": "4",
+        "minHeight": "",
+        "horizontalAlign": "center",
+        "verticalAlign": "top",
+        "bgColor": "#222222",
+        "titleColor": "#D8D8D8",
+        "textColor": "#D8D8D8",
+        "text": {
+            "default": "#### Introducing \\*Unity\r\n\r\n\\*Unity is a new cloud collaboration service that makes it easy for academics to work together."
+        },
+        "icon": "fa-comments",
+        "imgUrl": "",
+        "videoUrl": "",
+        "videoPlaceholder": ""
+    },
+    "block_5": {
+        "type": "iconText",
+        "xs": "12",
+        "sm": "12",
+        "md": "8",
+        "lg": "8",
+        "minHeight": "",
+        "horizontalAlign": "center",
+        "verticalAlign": "top",
+        "bgColor": "#E9E8E4",
+        "titleColor": "#333",
+        "textColor": "#333",
+        "text": {
+            "default": "#### Built by universities, for universities\r\n\r\n You can share files, chat and collaborate in real time. With people in your own university. Or thousands of others."
+        },
+        "icon": "fa-group",
+        "imgUrl": "",
+        "videoUrl": "",
+        "videoPlaceholder": ""
+    },
+    "block_6": {
+        "type": "text",
+        "xs": "12",
+        "sm": "12",
+        "md": "12",
+        "lg": "12",
+        "minHeight": "",
+        "horizontalAlign": "center",
+        "verticalAlign": "top",
+        "bgColor": "",
+        "titleColor": "#333",
+        "textColor": "#333",
+        "text": {
+            "default": "Not at the University of Manchester? [Find your university here](http://www.unity.ac)."
+        },
+        "icon": "",
+        "imgUrl": "",
+        "videoUrl": "",
+        "videoPlaceholder": ""
+    },
+    "block_7": {
+        "type": "empty",
+        "xs": "12",
+        "sm": "12",
+        "md": "12",
+        "lg": "12",
+        "minHeight": "",
+        "horizontalAlign": "center",
+        "verticalAlign": "middle",
+        "bgColor": "",
+        "titleColor": "",
+        "textColor": "",
+        "text": {
+            "default": ""
+        },
+        "icon": "",
+        "imgUrl": "",
+        "videoUrl": "",
+        "videoPlaceholder": ""
+    },
+    "block_8": {
+        "type": "empty",
+        "xs": "12",
+        "sm": "12",
+        "md": "12",
+        "lg": "12",
+        "minHeight": "",
+        "horizontalAlign": "center",
+        "verticalAlign": "middle",
+        "bgColor": "",
+        "titleColor": "",
+        "textColor": "",
+        "text": {
+            "default": ""
+        },
+        "icon": "",
+        "imgUrl": "",
+        "videoUrl": "",
+        "videoPlaceholder": ""
+    },
+    "block_9": {
+        "type": "empty",
+        "xs": "12",
+        "sm": "12",
+        "md": "12",
+        "lg": "12",
+        "minHeight": "",
+        "horizontalAlign": "center",
+        "verticalAlign": "middle",
+        "bgColor": "",
+        "titleColor": "",
+        "textColor": "",
+        "text": {
+            "default": ""
+        },
+        "icon": "",
+        "imgUrl": "",
+        "videoUrl": "",
+        "videoPlaceholder": ""
+    },
+    "block_10": {
+        "type": "empty",
+        "xs": "12",
+        "sm": "12",
+        "md": "12",
+        "lg": "12",
+        "minHeight": "",
+        "horizontalAlign": "center",
+        "verticalAlign": "middle",
+        "bgColor": "",
+        "titleColor": "",
+        "textColor": "",
+        "text": {
+            "default": ""
+        },
+        "icon": "",
+        "imgUrl": "",
+        "videoUrl": "",
+        "videoPlaceholder": ""
+    },
+    "block_11": {
+        "type": "empty",
+        "xs": "12",
+        "sm": "12",
+        "md": "12",
+        "lg": "12",
+        "minHeight": "",
+        "horizontalAlign": "center",
+        "verticalAlign": "middle",
+        "bgColor": "",
+        "titleColor": "",
+        "textColor": "",
+        "text": {
+            "default": ""
+        },
+        "icon": "",
+        "imgUrl": "",
+        "videoUrl": "",
+        "videoPlaceholder": ""
+    },
+    "block_12": {
+        "type": "empty",
+        "xs": "12",
+        "sm": "12",
+        "md": "12",
+        "lg": "12",
+        "minHeight": "",
+        "horizontalAlign": "center",
+        "verticalAlign": "middle",
+        "bgColor": "",
+        "titleColor": "",
+        "textColor": "",
+        "text": {
+            "default": ""
+        },
+        "icon": "",
+        "imgUrl": "",
+        "videoUrl": "",
+        "videoPlaceholder": ""
+    }
+}
