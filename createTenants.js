@@ -143,7 +143,7 @@ var createTenant = function(tenant, record, callback) {
 
 var updateTenant = function(tenant, record, callback) {
     console.log('  Updating tenancy');
-    var update = {'displayName': record.organisation};
+    var update = {'displayName': record.organisation, 'emailDomain': record.email};
 
     // Only update the hostname if there's a change as otherwise we'll get a 400 "hostname already exists"
     if (record.hostname !== tenant.host) {
@@ -167,7 +167,7 @@ var setConfiguration = function(tenant, record, callback) {
         'oae-authentication/shibboleth/enabled': false,
         //'oae-authentication/shibboleth/idpEntityID': record.idp,
         'oae-principals/user/defaultLanguage': record.language,
-        'oae-tenants/domains/email': record.email,
+        //'oae-tenants/domains/email': record.email,
         'oae-tenants/timezone/timezone': record.timezone
     };
     if (record.termsAndConditions) {
