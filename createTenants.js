@@ -84,7 +84,8 @@ var createOrUpdateTenants = function(tenants, records, callback) {
     var record = records.pop();
     console.log('%s - %s', record.hostname, record.organisation);
 
-    if (!record.idp || !record.organisation || !record.alias || !record.hostname || !record.country || !record.timezone || !record.language || !record.email) {
+    // maybe should add a way of dynamically using idp
+    if (!record.organisation || !record.alias || !record.hostname || !record.country || !record.timezone || !record.language || !record.email) {
         console.log('  Ignoring because of missing data');
         console.log('  %s', JSON.stringify(record));
         return createOrUpdateTenants(tenants, records, callback);
@@ -161,12 +162,12 @@ var updateTenant = function(tenant, record, callback) {
 var setConfiguration = function(tenant, record, callback) {
     console.log('  Setting configuration');
     var update = {
-        'oae-authentication/local/allowAccountCreation': false,
-        'oae-authentication/local/enabled': false,
-        'oae-authentication/shibboleth/enabled': true,
-        'oae-authentication/shibboleth/idpEntityID': record.idp,
+        'oae-authentication/local/allowAccountCreation': true,
+        'oae-authentication/local/enabled': true,
+        'oae-authentication/shibboleth/enabled': false,
+        //'oae-authentication/shibboleth/idpEntityID': record.idp,
         'oae-principals/user/defaultLanguage': record.language,
-        //'oae-tenants/domains/email': record.email,
+        'oae-tenants/domains/email': record.email,
         'oae-tenants/timezone/timezone': record.timezone
     };
     if (record.termsAndConditions) {
