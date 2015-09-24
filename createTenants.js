@@ -85,7 +85,7 @@ var createOrUpdateTenants = function(tenants, records, callback) {
     console.log('%s - %s', record.hostname, record.organisation);
 
     // maybe should add a way of dynamically using idp
-    if (!record.organisation || !record.alias || !record.hostname || !record.country || !record.timezone || !record.language || !record.email) {
+    if (!record.organisation || !record.alias || !record.hostname || !record.timezone || !record.language || !record.email) {
         console.log('  Ignoring because of missing data');
         console.log('  %s', JSON.stringify(record));
         return createOrUpdateTenants(tenants, records, callback);
@@ -137,13 +137,19 @@ var createOrUpdateTenants = function(tenants, records, callback) {
 
 var createTenant = function(tenant, record, callback) {
     console.log('  Creating new tenancy');
+
     // Create the tenant
-    RestAPI.Tenants.createTenant(restCtx, record.alias, record.organisation, record.hostname, callback);
+    var opts = {'emailDomain': record.email, 'countryCode': record.country};
+    RestAPI.Tenants.createTenant(restCtx, record.alias, record.organisation, record.hostname, opts, callback);
 };
 
 var updateTenant = function(tenant, record, callback) {
     console.log('  Updating tenancy');
-    var update = {'displayName': record.organisation, 'emailDomain': record.email};
+    var update = {
+      'displayName': record.organisation,
+      'emailDomain': record.email,
+      'countryCode': record.country
+    };
 
     // Only update the hostname if there's a change as otherwise we'll get a 400 "hostname already exists"
     if (record.hostname !== tenant.host) {
@@ -165,14 +171,18 @@ var setConfiguration = function(tenant, record, callback) {
         'oae-authentication/local/allowAccountCreation': true,
         'oae-authentication/local/enabled': true,
         'oae-authentication/shibboleth/enabled': false,
-        //'oae-authentication/shibboleth/idpEntityID': record.idp,
         'oae-principals/user/defaultLanguage': record.language,
-        //'oae-tenants/domains/email': record.email,
         'oae-tenants/timezone/timezone': record.timezone
     };
+
+    if (record.idp) {
+        update['oae-authentication/shibboleth/idpEntityID'] = record.idp;
+    }
+
     if (record.termsAndConditions) {
         update['oae-principals/termsAndConditions/text/default'] = record.termsAndConditions;
     }
+
     RestAPI.Config.updateConfig(restCtx, tenant.alias, update, callback);
 };
 
