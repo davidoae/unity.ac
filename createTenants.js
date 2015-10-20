@@ -105,7 +105,10 @@ var createTenants = function(restCtx, tenants, records, callback) {
 
     if (!record.organisation || !record.alias || !record.hostname) {
         console.log('  Ignoring "%s" because of missing data display name, alias, or host name', record.alias);
-        return process.nextTick(createTenants, restCtx, tenants, records, callback);
+        process.nextTick(function() {
+          createTenants(restCtx, tenants, records, callback);
+        });
+        return;
     }
 
     // Check if this tenant already exists:
@@ -113,7 +116,10 @@ var createTenants = function(restCtx, tenants, records, callback) {
         // Ignore existing tenants for now
         console.log('  Ignoring because the tenant exists already');
         // Move on to the next one
-        return process.nextTick(createTenants, restCtx, tenants, records, callback);
+        process.nextTick(function() {
+          createTenants(restCtx, tenants, records, callback);
+        });
+        return;
     }
 
     // 1. Create the tenant
