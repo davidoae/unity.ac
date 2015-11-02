@@ -141,9 +141,9 @@ var setGoogleAuth = function(restCtx, tenant, record, callback) {
         console.log('  Missing data google secret for "%s".', tenant.alias);
     }
 
-    // lastly barf if no record.domains (email domains maybe, may not need to be supplied really)
+    // lastly barf if no record.email
     if (record.email) {
-        update['oae-authentication/google/domains'] = record.email.domains;
+        update['oae-authentication/google/domains'] = record.email;
     } else {
         console.log('  Missing data google domains for "%s".', tenant.alias);
     }
