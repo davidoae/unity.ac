@@ -150,6 +150,10 @@ var setGoogleAuth = function(restCtx, tenant, record, callback) {
 
     // set to turn google auth on
     update['oae-authentication/google/enabled'] = true;
+    // and set local auth to off
+    update['oae-authentication/local/enabled'] = false;
+    // unsure about this one, i'll leave it commented out for now
+    // update['oae-authentication/local/allowAccountCreation'] = false;
 
     // run update
     RestAPI.Config.updateConfig(restCtx, tenant.alias, update, callback);
