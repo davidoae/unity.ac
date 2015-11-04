@@ -108,6 +108,11 @@ var updateTenants = function(restCtx, tenants, records, callback) {
         console.log('  Ignoring bacause tenant does not exist.');
         // Move on to the next one
         return setImmediate(updateTenants, restCtx, tenants, records, callback);
+    } else if (!record.googlekey || !record.googlesecret || !record.email) {
+        // Google auth requires this data
+        console.log('  Ignoring because of missing data.');
+        // Move on to the next one
+        return setImmediate(updateTenants, restCtx, tenants, records, callback);
     }
 
     // set gogole auth
@@ -127,29 +132,18 @@ var setGoogleAuth = function(restCtx, tenant, record, callback) {
     console.log('  Setting configuration');
     var update = {};
 
-    // barf if no record.key (google auth key/clientID)
+    // set to turn google auth on
     if (record.googlekey) {
         update['oae-authentication/google/key'] = record.googlekey;
-    } else {
-        console.log('  Missing data google key for "%s".', tenant.alias);
     }
-
-    // also barf if no record.secret (secret)
     if (record.googlesecret) {
         update['oae-authentication/google/secret'] = record.googlesecret;
-    } else {
-        console.log('  Missing data google secret for "%s".', tenant.alias);
     }
-
-    // lastly barf if no record.email
     if (record.email) {
         update['oae-authentication/google/domains'] = record.email;
-    } else {
-        console.log('  Missing data google domains for "%s".', tenant.alias);
     }
-
-    // set to turn google auth on
     update['oae-authentication/google/enabled'] = true;
+
     // and set local auth to off
     update['oae-authentication/local/enabled'] = false;
     update['oae-authentication/local/allowAccountCreation'] = false;
