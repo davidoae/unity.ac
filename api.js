@@ -46,7 +46,7 @@ var getCSVData = module.exports.getCSVData = function(csvPath, callback) {
 var getGoogleCSVData = module.exports.getGoogleCSVData = function(csvPath, callback) {
     // Parse the CSV file
     var options = {
-        'columns': ['alias', 'email', 'googlekey', 'googlesecret']
+        'columns': ['alias', 'googlekey', 'googlesecret', 'email']
     };
     var parser = csv.parse(options, function(err, records) {
         if (err) {
