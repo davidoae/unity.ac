@@ -133,15 +133,9 @@ var setGoogleAuth = function(restCtx, tenant, record, callback) {
     var update = {};
 
     // set to turn google auth on
-    if (record.googlekey) {
-        update['oae-authentication/google/key'] = record.googlekey;
-    }
-    if (record.googlesecret) {
-        update['oae-authentication/google/secret'] = record.googlesecret;
-    }
-    if (record.email) {
-        update['oae-authentication/google/domains'] = record.email;
-    }
+    update['oae-authentication/google/key'] = record.googlekey;
+    update['oae-authentication/google/secret'] = record.googlesecret;
+    update['oae-authentication/google/domains'] = record.email;
     update['oae-authentication/google/enabled'] = true;
 
     // and set local auth to off
