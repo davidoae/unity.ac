@@ -66,7 +66,7 @@ read({'prompt': 'Password: ', 'silent': true}, function(err, password) {
     });
 
     console.log('Parsing CSV data...');
-    UnityAPI.getCSVData(argv.file, function(err, records) {
+    UnityAPI.getGoogleCSVData(argv.file, function(err, records) {
         if (err) {
             process.exit(1);
         }
@@ -78,7 +78,7 @@ read({'prompt': 'Password: ', 'silent': true}, function(err, password) {
                 process.exit(1);
             }
 
-            console.log('Begin creating new tenants...');
+            console.log('Begin updating Google auth for tenants...');
 
             var concurrency = parseInt(argv.c, 10);
             if (_.isNaN(concurrency)) {
@@ -87,7 +87,7 @@ read({'prompt': 'Password: ', 'silent': true}, function(err, password) {
             }
 
             for (var i = 0; i < concurrency; i++) {
-                createTenants(restCtx, tenants, records, function() {
+                updateTenants(restCtx, tenants, records, function() {
                     console.log('All done');
                 });
             }
@@ -95,65 +95,54 @@ read({'prompt': 'Password: ', 'silent': true}, function(err, password) {
     });
 });
 
-var createTenants = function(restCtx, tenants, records, callback) {
+var updateTenants = function(restCtx, tenants, records, callback) {
     if (_.isEmpty(records)) {
         return callback();
     }
 
     var record = records.pop();
-    console.log('%s - %s', record.hostname, record.organisation);
+    console.log('%s', record.alias);
 
-    if (!record.organisation || !record.alias || !record.hostname) {
-        console.log('  Ignoring "%s" because of missing data display name, alias, or host name', record.alias);
-        return setImmediate(createTenants, restCtx, tenants, records, callback);
-    } else if (tenants[record.alias]) {
-        // Ignore existing tenants for now
-        console.log('  Ignoring because the tenant exists already');
+    if (!tenants[record.alias]) {
+        // can't do it if tenant does not exist
+        console.log('  Ignoring bacause tenant does not exist.');
         // Move on to the next one
-        return setImmediate(createTenants, restCtx, tenants, records, callback);
+        return setImmediate(updateTenants, restCtx, tenants, records, callback);
+    } else if (!record.googlekey || !record.googlesecret || !record.email) {
+        // Google auth requires this data
+        console.log('  Ignoring because of missing data.');
+        // Move on to the next one
+        return setImmediate(updateTenants, restCtx, tenants, records, callback);
     }
 
-    // 1. Create the tenant
-    createTenant(restCtx, tenants[record.alias], record, function(err, tenant) {
+    // set gogole auth
+    setGoogleAuth(restCtx, tenants[record.alias], record, function(err, tenant) {
         if (err) {
-            console.log('  Failed to create or update the tenant');
+            console.log('  Failed to update the tenant');
             console.log(err);
             process.exit(1);
         }
 
-        // 2. Set the tenants configuration
-        setConfiguration(restCtx, tenant, record, function(err) {
-            if (err) {
-                console.log('  Failed to set the configuration');
-                console.log(err);
-                process.exit(1);
-            }
-
-            // Move on to the next one
-            createTenants(restCtx, tenants, records, callback);
-        });
+        // Move on to the next one
+        updateTenants(restCtx, tenants, records, callback);
     });
 };
 
-var createTenant = function(restCtx, tenant, record, callback) {
-    console.log('  Creating new tenancy');
-
-    // Create the tenant
-    var opts = {'emailDomain': record.email, 'countryCode': record.country};
-    RestAPI.Tenants.createTenant(restCtx, record.alias, record.organisation, record.hostname, opts, callback);
-};
-
-var setConfiguration = function(restCtx, tenant, record, callback) {
+var setGoogleAuth = function(restCtx, tenant, record, callback) {
     console.log('  Setting configuration');
     var update = {};
 
-    if (record.language) {
-        update['oae-principals/user/defaultLanguage'] = record.language;
-    }
+    // set to turn google auth on
+    update['oae-authentication/google/key'] = record.googlekey;
+    update['oae-authentication/google/secret'] = record.googlesecret;
+    update['oae-authentication/google/domains'] = record.email;
+    update['oae-authentication/google/enabled'] = true;
 
-    if (record.timezone) {
-        update['oae-tenants/timezone/timezone'] = record.timezone;
-    }
+    // and set local auth to off
+    update['oae-authentication/local/enabled'] = false;
+    update['oae-authentication/local/allowAccountCreation'] = false;
 
+    // run update
     RestAPI.Config.updateConfig(restCtx, tenant.alias, update, callback);
 };
+

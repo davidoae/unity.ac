@@ -8,6 +8,7 @@
     "csv": "latest",
     "lodash": "latest",
     "oae-rest": "latest",
+		"read": "latest",
     "yargs": "latest"
   }
 }

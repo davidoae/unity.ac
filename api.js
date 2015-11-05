@@ -42,3 +42,26 @@ var getCSVData = module.exports.getCSVData = function(csvPath, callback) {
     var fileStream = fs.createReadStream(csvPath, {'encoding': 'utf8'});
     fileStream.pipe(parser);
 };
+
+var getGoogleCSVData = module.exports.getGoogleCSVData = function(csvPath, callback) {
+    // Parse the CSV file
+    var options = {
+        'columns': ['alias', 'googlekey', 'googlesecret', 'email']
+    };
+    var parser = csv.parse(options, function(err, records) {
+        if (err) {
+            console.log('Failed to read CSV file');
+            console.log(err);
+            return callback(err);
+        }
+
+        // Shift out the headers
+        // records.shift();
+
+        return callback(null, records);
+    });
+
+    // Pipe the CSV file to the parser
+    var fileStream = fs.createReadStream(csvPath, {'encoding': 'utf8'});
+    fileStream.pipe(parser);
+};
