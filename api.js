@@ -65,3 +65,28 @@ var getGoogleCSVData = module.exports.getGoogleCSVData = function(csvPath, callb
     var fileStream = fs.createReadStream(csvPath, {'encoding': 'utf8'});
     fileStream.pipe(parser);
 };
+
+// I'm sure reading the file in a more normal way rather than using csv module would be
+// more efficient but this is much quicker for me
+var getAliasListData = module.exports.getAliasListData = function(csvPath, callback) {
+    // Parse the CSV file, yes I know it's just a list
+    var options = {
+        'columns': ['alias']
+    };
+    var parser = csv.parse(options, function(err, records) {
+        if (err) {
+            console.log('Failed to read CSV file');
+            console.log(err);
+            return callback(err);
+        }
+
+        // Shift out the headers
+        // records.shift();
+
+        return callback(null, records);
+    });
+
+    // Pipe the CSV file to the parser
+    var fileStream = fs.createReadStream(csvPath, {'encoding': 'utf8'});
+    fileStream.pipe(parser);
+};
